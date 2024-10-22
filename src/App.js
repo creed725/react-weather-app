@@ -18,7 +18,7 @@ function App() {
         {/*GitHub Repository Link Section*/}
         <h3 id="author">
           <a
-            href="https://github.com/creed725/weather-app-shecodes-plus-project.git"
+            href="https://github.com/creed725/react-weather-app.git"
             target="_blank"
             rel="noopener noreferrer" //This is a security best practice
           >
