@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import SearchForm from "./SearchForm";
+import Weather from "./Weather";
+import Forecast from "./Forecast";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./containerStyle.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container">
+      <SearchForm />
+      <div className="row">
+        <div className="col-md-6">
+          <Weather />
+        </div>
+        <div className="col-md-6">
+          <Forecast />
+        </div>
+        {/*GitHub Repository Link Section*/}
+        <h3 id="author">
+          <a
+            href="https://github.com/creed725/weather-app-shecodes-plus-project.git"
+            target="_blank"
+            rel="noopener noreferrer" //This is a security best practice
+          >
+            Open-source
+          </a>
+          coded by Ciara Reed 👩🏽‍💻
+        </h3>
+      </div>
     </div>
   );
 }
