@@ -13,10 +13,6 @@ export default function Weather() {
         <br />
         <span id="celsiusLink"> °C </span>|<span id="fahrenheitLink"> °F </span>
       </div>
-      {/*<img src="" id="icon" className="fa-regular fa-sun fa-solid fa-sync sunny">
-        {" "}
-      </img>*/}
-
       <div className="row">
         <div className="col-5">
           <span className="precip"> </span>
