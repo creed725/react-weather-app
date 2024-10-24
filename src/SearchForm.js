@@ -2,22 +2,22 @@ import React from "react";
 
 export default function SearchForm() {
   return (
-    <div class="buttons">
+    <div className="buttons">
       <form id="search-form">
         <input
           type="text"
-          placeholder="Enter a City"
+          placeholder="Enter a City.."
           autocomplete="off"
           autofocus="on"
           id="search-input"
         />
-        <p class="current-location">
-          <button type="submit" class="btn btn-primary" id="search-button">
+        <p className="current-location">
+          <button type="submit" className="btn btn-primary" id="search-button">
             Search
           </button>
           <button
             type="button"
-            class="btn btn-secondary"
+            className="btn btn-secondary"
             id="current-locationbtn"
           >
             Current Location
