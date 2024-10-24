@@ -1,7 +1,7 @@
 import SearchForm from "./SearchForm";
 import Weather from "./Weather";
 import Forecast from "./Forecast";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./containerStyle.css";
 
 function App() {
