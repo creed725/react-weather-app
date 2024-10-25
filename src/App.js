@@ -24,23 +24,23 @@ function App() {
                   <div className="col-md-6">
                     <Forecast />
                   </div>
-                  {/*GitHub Repository Link Section*/}
-                  <footer id="author">
-                    <a
-                      href="https://github.com/creed725/react-weather-app.git"
-                      target="_blank"
-                      rel="noopener noreferrer" //This is a security best practice
-                    >
-                      Open-source
-                    </a>{" "}
-                    coded by Ciara Reed 👩🏽‍💻
-                  </footer>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/*GitHub Repository Link Section*/}
+      <footer id="author">
+        <a
+          href="https://github.com/creed725/react-weather-app.git"
+          target="_blank"
+          rel="noopener noreferrer" //This is a security best practice
+        >
+          Open-source
+        </a>{" "}
+        coded by Ciara Reed 👩🏽‍💻
+      </footer>
     </div>
   );
 }
