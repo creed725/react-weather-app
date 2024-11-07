@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-{
-  /*import "./containerStyle.css";*/
-}
+
+/*import "./containerStyle.css";*/
 
 export default function Weather(props) {
   //const [ready, setReady] = useState(false);
