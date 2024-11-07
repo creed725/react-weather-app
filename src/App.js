@@ -1,8 +1,8 @@
 import SearchForm from "./SearchForm";
 import Weather from "./Weather";
-import Forecast from "./Forecast";
+//import Forecast from "./Forecast";
 
-import "./containerStyle.css";
+//import "./containerStyle.css";
 
 function App() {
   return (
@@ -19,28 +19,27 @@ function App() {
                 <SearchForm />
                 <div className="row">
                   <div className="col-md-6">
-                    <Weather />
+                    <Weather defaultCity="Seattle" />
                   </div>
-                  <div className="col-md-6">
-                    <Forecast />
-                  </div>
+                  <div className="col-md-6">{/*<Forecast /> */}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/*GitHub Repository Link Section*/}
+        <footer id="author">
+          <a
+            href="https://github.com/creed725/react-weather-app.git"
+            target="_blank"
+            rel="noopener noreferrer" //This is a security best practice
+          >
+            Open-source
+          </a>{" "}
+          coded by Ciara Reed 👩🏽‍💻
+        </footer>
       </div>
-      {/*GitHub Repository Link Section*/}
-      <footer id="author">
-        <a
-          href="https://github.com/creed725/react-weather-app.git"
-          target="_blank"
-          rel="noopener noreferrer" //This is a security best practice
-        >
-          Open-source
-        </a>{" "}
-        coded by Ciara Reed 👩🏽‍💻
-      </footer>
     </div>
   );
 }
