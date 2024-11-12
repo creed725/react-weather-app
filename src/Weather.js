@@ -43,7 +43,9 @@ export default function Weather(props) {
           </div>
           <div className="row">
             <div className="col-7">
-              <span id="description">{weatherData.description}</span>
+              <span id="description" className="text-capitalize">
+                {weatherData.description}
+              </span>
             </div>
           </div>
         </div>
