@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FormattedDate from "./FormattedDate";
 import axios from "axios";
 
 /*import "./containerStyle.css";*/
@@ -13,7 +14,7 @@ export default function Weather(props) {
       ready: true,
       temperature: response.data.temperature.current,
       humidity: response.data.temperature.humidity,
-      date: "Wednesday, 09:00",
+      date: new Date(response.data.time * 1000),
       description: response.data.condition.description,
       iconURL:
         "http://shecodes-assets.s3.amazonaws.com/api/weather/icons/clear-sky-night.png",
@@ -33,7 +34,10 @@ export default function Weather(props) {
           </div>
           <div className="row">
             <div className="col-7">
-              <span id="time"> {weatherData.date} </span>
+              <span id="time">
+                {" "}
+                <FormattedDate date={weatherData.date} />{" "}
+              </span>
             </div>
           </div>
           <div className="row">
