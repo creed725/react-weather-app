@@ -15,8 +15,7 @@ function App() {
                 <h1 className="Weather">
                   {" "}
                   <span>Weather</span>
-                </h1>
-                <SearchForm />
+                </h1>              
                 <div className="row">
                   <div className="col-md-6">
                     <Weather defaultCity="Seattle" />
