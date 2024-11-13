@@ -1,4 +1,3 @@
-import SearchForm from "./SearchForm";
 import Weather from "./Weather";
 //import Forecast from "./Forecast";
 
@@ -15,7 +14,7 @@ function App() {
                 <h1 className="Weather">
                   {" "}
                   <span>Weather</span>
-                </h1>              
+                </h1>
                 <div className="row">
                   <div className="col-md-6">
                     <Weather defaultCity="Seattle" />
