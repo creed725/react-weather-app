@@ -18,15 +18,27 @@ export default function Weather(props) {
   }, [city]);
 
   function handleResponse(response) {
-    //console.log(response.data);
+    console.log(response.data);
+    const weatherIconMapping = {
+      "clear-sky-night": "CLEAR_NIGHT",
+      "clear-sky-day": "CLEAR_DAY",
+      "few-clouds": "PARTLY_CLOUDY_DAY",
+      "scattered-clouds": "CLOUDY",
+      "broken-clouds-night": "CLOUDY",
+      "rain-night": "RAIN",
+      "mist-night": "FOG",
+    };
+
+    const iconCode =
+      weatherIconMapping[response.data.condition.icon] || "CLEAR_DAY"; //Default icon if not found
+
     setWeatherData({
       ready: true,
       temperature: response.data.temperature.current,
       humidity: response.data.temperature.humidity,
       date: new Date(response.data.time * 1000),
       description: response.data.condition.description,
-      iconURL:
-        "http://shecodes-assets.s3.amazonaws.com/api/weather/icons/clear-sky-night.png",
+      icon: iconCode, //Stores the icon code instead of the iconURL
       wind: response.data.wind.speed,
       city: response.data.city,
     });
