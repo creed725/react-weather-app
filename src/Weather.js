@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
-import SearchForm from "./SearchForm";
 
 /*import "./containerStyle.css";*/
 
@@ -44,21 +43,95 @@ export default function Weather(props) {
     });
   }
 
-  function handleCityChange(newCity) {
-    setCity(newCity);
+  function handleCityChange(event) {
+    setCity(event.target.value);
   }
 
+  //Handle form submit
+  function handleSubmit(event) {
+    event.preventDefault(); //Prevents the form submission from reloading the page
+  }
+
+  // Get the current location
+
+  function getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
+        const apiUrl = `https://api.shecodes.io/weather/v1/current?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=imperial`; //Use latitude and longitude for the API request
+
+        axios.get(apiUrl).then(handleResponse); // Fetch weather data for current location
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  //Conditional rendering:show loading or weather info
   if (weatherData.ready) {
     return (
-      <div>
-        <SearchForm onSearch={handleCityChange} />
-        <WeatherInfo weatherData={weatherData} />
+      <div className="Weather">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9">
+              <input
+                type="text"
+                className="form-conrol"
+                placeholder="Enter a city..."
+                value={city}
+                onChange={handleCityChange} //Updates city on input change
+                autoFocus="on"
+              />
+            </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
+            </div>
+          </div>
+        </form>
+
+        <button
+          onClick={getCurrentLocation}
+          className="btn btn-info w-100 mt-3"
+        >
+          Current Location
+        </button>
+
+        <div>
+          <WeatherInfo weatherData={weatherData} />
+        </div>
       </div>
     );
   } else {
     return (
       <div>
-        <SearchForm onSearch={handleCityChange} />
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9">
+              <input
+                type="text"
+                className="form-conrol"
+                placeholder="Enter a city..."
+                value={city}
+                onChange={handleCityChange} //Updates city on input change
+                autoFocus="on"
+              />
+            </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
+            </div>
+          </div>
+        </form>
         <div>Loading...</div>
       </div>
     );
