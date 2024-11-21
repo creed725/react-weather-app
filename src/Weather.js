@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
 
@@ -9,15 +9,15 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
 
-  useEffect(() => {
+  function search(query) {
     const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
 
     axios.get(apiUrl).then(handleResponse);
-  }, [city]);
+  }
 
   function handleResponse(response) {
-    console.log(response.data);
+    //console.log(response.data);
     const weatherIconMapping = {
       "clear-sky-night": "CLEAR_NIGHT",
       "clear-sky-day": "CLEAR_DAY",
@@ -43,47 +43,35 @@ export default function Weather(props) {
     });
   }
 
-  function handleCityChange(event) {
-    setCity(event.target.value);
+  //Handle the city input change
+  function handleCityChange(newCity) {
+    setCity(newCity);
   }
 
-  //Handle form submit
-  function handleSubmit(event) {
-    event.preventDefault(); //Prevents the form submission from reloading the page
+  //Handle form submission
+  function handleSearch(event) {
+    event.preventDefault();
+    search(city);
   }
 
-  // Get the current location
+  //Initial search on component mount
+  useEffect(() => {
+    search(city);
+  }, [city]); //Run only once when the component mounts
 
-  function getCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-
-        const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-        const apiUrl = `https://api.shecodes.io/weather/v1/current?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=imperial`; //Use latitude and longitude for the API request
-
-        axios.get(apiUrl).then(handleResponse); // Fetch weather data for current location
-      });
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-
-  //Conditional rendering:show loading or weather info
   if (weatherData.ready) {
     return (
       <div className="Weather">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSearch}>
           <div className="row">
             <div className="col-9">
               <input
                 type="text"
-                className="form-conrol"
+                className="form-control"
                 placeholder="Enter a city..."
                 value={city}
-                onChange={handleCityChange} //Updates city on input change
-                autoFocus="on"
+                onChange={handleCityChange}
+                autoFocus
               />
             </div>
             <div className="col-3">
@@ -95,32 +83,22 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-
-        <button
-          onClick={getCurrentLocation}
-          className="btn btn-info w-100 mt-3"
-        >
-          Current Location
-        </button>
-
-        <div>
-          <WeatherInfo weatherData={weatherData} />
-        </div>
+        <WeatherInfo weatherData={weatherData} />
       </div>
     );
   } else {
     return (
-      <div>
-        <form onSubmit={handleSubmit}>
+      <div className="Weather">
+        <form onSubmit={handleSearch}>
           <div className="row">
             <div className="col-9">
               <input
                 type="text"
-                className="form-conrol"
+                className="form-control"
                 placeholder="Enter a city..."
                 value={city}
-                onChange={handleCityChange} //Updates city on input change
-                autoFocus="on"
+                onChange={handleCityChange}
+                autoFocus
               />
             </div>
             <div className="col-3">

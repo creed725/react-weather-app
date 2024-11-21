@@ -37,13 +37,6 @@ export default function SearchForm(props) {
               >
                 Search
               </button>
-              <button
-                type="button"
-                className="btn btn-secondary ms-2"
-                id="current-locationbtn"
-              >
-                Current Location
-              </button>
             </p>
           </form>
         </div>
