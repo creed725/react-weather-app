@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
 
@@ -9,9 +9,9 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
 
-  function search(query) {
+  function search() {
     const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?q=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
 
     axios.get(apiUrl).then(handleResponse);
   }
@@ -43,35 +43,35 @@ export default function Weather(props) {
     });
   }
 
-  //Handle the city input change
-  function handleCityChange(newCity) {
-    setCity(newCity);
+  //Handle form submission
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
   }
 
-  //Handle form submission
-  function handleSearch(event) {
-    event.preventDefault();
-    search(city);
+  //Handle the city input change
+  function handleCityChange(event) {
+    setCity(event.target.value);
   }
 
   //Initial search on component mount
-  useEffect(() => {
-    search(city);
-  }, [city]); //Run only once when the component mounts
+  //useEffect(() => {
+  //search(city);
+  //}, [city]); //Run only once when the component mounts
 
   if (weatherData.ready) {
     return (
       <div className="Weather">
-        <form onSubmit={handleSearch}>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-9">
               <input
-                type="text"
-                className="form-control"
+                type="search"
                 placeholder="Enter a city..."
+                className="form-control"
                 value={city}
                 onChange={handleCityChange}
-                autoFocus
+                autoFocus="on"
               />
             </div>
             <div className="col-3">
@@ -83,7 +83,7 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <WeatherInfo weatherData={weatherData} />
+        <WeatherInfo data={weatherData} />
       </div>
     );
   } else {
