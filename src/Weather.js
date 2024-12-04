@@ -87,32 +87,8 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    return (
-      <div className="Weather">
-        <form onSubmit={handleSearch}>
-          <div className="row">
-            <div className="col-9">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter a city..."
-                value={city}
-                onChange={handleCityChange}
-                autoFocus
-              />
-            </div>
-            <div className="col-3">
-              <input
-                type="submit"
-                value="Search"
-                className="btn btn-primary w-100"
-              />
-            </div>
-          </div>
-        </form>
-        <div>Loading...</div>
-      </div>
-    );
+    search();
+    return "Loading...";
   }
 }
 
