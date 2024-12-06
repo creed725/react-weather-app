@@ -11,7 +11,7 @@ export default function Weather(props) {
 
   function search() {
     const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?q=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
 
     axios.get(apiUrl).then(handleResponse);
   }
@@ -19,12 +19,23 @@ export default function Weather(props) {
   function handleResponse(response) {
     //console.log(response.data);
     const weatherIconMapping = {
-      "clear-sky-night": "CLEAR_NIGHT",
       "clear-sky-day": "CLEAR_DAY",
-      "few-clouds": "PARTLY_CLOUDY_DAY",
-      "scattered-clouds": "CLOUDY",
+      "clear-sky-night": "CLEAR_NIGHT",
+      "few-clouds-day": "PARTLY_CLOUDY_DAY",
+      "few-clouds-night": "PARTLY_CLOUDY_NIGHT",
+      "scattered-clouds-day": "PARTLY_CLOUDY_DAY",
+      "scattered-clouds-night": "PARTLY_CLOUDY_NIGHT",
+      "broken-clouds-day": "CLOUDY",
       "broken-clouds-night": "CLOUDY",
+      "shower-rain-day": "RAIN",
+      "shower-rain-night": "RAIN",
+      "rain-day": "RAIN",
       "rain-night": "RAIN",
+      "thunderstorm-day": "RAIN",
+      "thunderstorm-night": "RAIN",
+      "snow-day": "SNOW",
+      "snow-night": "SNOW",
+      "mist-day": "FOG",
       "mist-night": "FOG",
     };
 
@@ -83,7 +94,7 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <WeatherInfo data={weatherData} />
+        <WeatherInfo weatherData={weatherData} />
       </div>
     );
   } else {
