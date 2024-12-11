@@ -40,7 +40,7 @@ export default function WeatherInfo({ weatherData }) {
           <div className="row">
             <div className="col-7">
               <div className="float-left">
-                <WeatherIcon icon={weatherData.icon} />
+                <WeatherIcon icon={weatherData.icon} size={64}/>
               </div>
             </div>
           </div>
