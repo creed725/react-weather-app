@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
-
 
 /*import "./containerStyle.css";*/
 
@@ -11,39 +10,12 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
 
-  function search() {
-    const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
-
-    axios.get(apiUrl).then(handleResponse);
-  }
+  useEffect(() => {
+    search();
+  }, [city]); // Trigger when 'city' changes to prevent to many requests.
 
   function handleResponse(response) {
     //console.log(response.data);
-    const weatherIconMapping = {
-      "clear-sky-day": "CLEAR_DAY",
-      "clear-sky-night": "CLEAR_NIGHT",
-      "few-clouds-day": "PARTLY_CLOUDY_DAY",
-      "few-clouds-night": "PARTLY_CLOUDY_NIGHT",
-      "scattered-clouds-day": "PARTLY_CLOUDY_DAY",
-      "scattered-clouds-night": "PARTLY_CLOUDY_NIGHT",
-      "broken-clouds-day": "CLOUDY",
-      "broken-clouds-night": "CLOUDY",
-      "shower-rain-day": "RAIN",
-      "shower-rain-night": "RAIN",
-      "rain-day": "RAIN",
-      "rain-night": "RAIN",
-      "thunderstorm-day": "RAIN",
-      "thunderstorm-night": "RAIN",
-      "snow-day": "SNOW",
-      "snow-night": "SNOW",
-      "mist-day": "FOG",
-      "mist-night": "FOG",
-    };
-
-    const iconCode =
-      weatherIconMapping[response.data.condition.icon] || "CLEAR_DAY"; //Default icon if not found
-
     setWeatherData({
       ready: true,
       coordinates: response.data.coordinates,
@@ -51,7 +23,7 @@ export default function Weather(props) {
       humidity: response.data.temperature.humidity,
       date: new Date(response.data.time * 1000),
       description: response.data.condition.description,
-      icon: iconCode, //Stores the icon code instead of the iconURL
+      icon: response.data.condition.icon, //Stores the icon code instead of the iconURL
       wind: response.data.wind.speed,
       city: response.data.city,
     });
@@ -66,6 +38,13 @@ export default function Weather(props) {
   //Handle the city input change
   function handleCityChange(event) {
     setCity(event.target.value);
+  }
+
+  function search() {
+    const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
+
+    axios.get(apiUrl).then(handleResponse);
   }
 
   //Initial search on component mount
@@ -97,8 +76,8 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <WeatherInfo weatherData={weatherData} />
-        <WeatherForecast coordinates={weatherData.coordinates}/>
+        <WeatherInfo data={weatherData} />
+        <WeatherForecast coordinates={weatherData.coordinates} />
       </div>
     );
   } else {

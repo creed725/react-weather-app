@@ -2,28 +2,28 @@ import FormattedDate from "./FormattedDate";
 import WeatherIcon from "./WeatherIcon";
 import WeatherTemperature from "./WeatherTemperature";
 
-export default function WeatherInfo({ weatherData }) {
+export default function WeatherInfo(props) {
   return (
-    <div className="containers location-time">
+    <div className="WeatherInfo">
       <div className="row">
         <div className="col-7">
-          <h2>{weatherData.city}</h2>
+          <h2>{props.data.city}</h2>
 
           <div className="row">
             <div className="col-7">
-              <FormattedDate date={weatherData.date} />
+              <FormattedDate date={props.data.date} />
             </div>
           </div>
 
           <div className="row">
             <div className="col-7 text-capitalize">
-              {weatherData.description}
+              {props.data.description}
             </div>
           </div>
 
           <div className="row">
             <div className="col-7">
-              <WeatherTemperature celsius={weatherData.temperature} />
+              <WeatherTemperature celsius={props.data.temperature} />
             </div>
           </div>
 
@@ -31,7 +31,7 @@ export default function WeatherInfo({ weatherData }) {
             <div className="col-7">
               <span>Wind:</span>
               <span id="wind" className="windy">
-                {Math.round(weatherData.wind)}
+                {Math.round(props.data.wind)}
               </span>{" "}
               mph
             </div>
@@ -40,7 +40,7 @@ export default function WeatherInfo({ weatherData }) {
           <div className="row">
             <div className="col-7">
               <div className="float-left">
-                <WeatherIcon icon={weatherData.icon} size={64}/>
+                <WeatherIcon code={props.data.icon} size={64} />
               </div>
             </div>
           </div>
@@ -49,4 +49,4 @@ export default function WeatherInfo({ weatherData }) {
     </div>
   );
 }
-//This component will handle the rendering of the weather data and will receive weatherData as a prop.
+//This component will handle the rendering of the weather data.
