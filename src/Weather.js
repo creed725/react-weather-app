@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
@@ -9,10 +9,6 @@ export default function Weather(props) {
   //const [ready, setReady] = useState(false);
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
-
-  useEffect(() => {
-    search();
-  }, [city]); // Trigger when 'city' changes to prevent to many requests.
 
   function handleResponse(response) {
     //console.log(response.data);
