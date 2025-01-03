@@ -38,28 +38,32 @@ export default function Weather(props) {
     }
   }
 
-  function search() {
+  useEffect(() => {
     const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${props.defaultCity}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
 
     axios
       .get(apiUrl)
-      .then(handleResponse)
+      .then((response) => handleResponse(response))
       .catch((error) => {
         setError("Failed to fetch weather data. Please try again.");
         console.error("API call error:", error);
       });
-  }
-
-  //Initial search on component mount
-  useEffect(() => {
-    search();
-  }, []); //Run only once when the component mounts
+  }, [props.defaultCity]);
 
   //Handle form submission
   function handleSubmit(event) {
     event.preventDefault();
-    search();
+    const apiKey = `40bdb8c3a26579atfoa8a2d376def906`;
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`;
+
+    axios
+      .get(apiUrl)
+      .then((response) => handleResponse(response))
+      .catch((error) => {
+        setError("Failed to fetch weather data. Please try again.");
+        console.error("API call error:", error);
+      });
   }
 
   //Handle the city input change
@@ -92,8 +96,7 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <div className="alert alert-danger">{error} </div>{" "}
-        {/* Display error message */}
+        <div className="alert alert-danger">{error} </div>
       </div>
     );
   } else if (weatherData.ready) {
