@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
@@ -7,22 +7,39 @@ import axios from "axios";
 
 export default function Weather(props) {
   //const [ready, setReady] = useState(false);
+  const [error, setError] = useState(null); //Initialize the error state as null
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
 
   function handleResponse(response) {
-    //console.log(response.data);
-    setWeatherData({
-      ready: true,
-      coordinates: response.data.coordinates,
-      temperature: response.data.temperature.current,
-      humidity: response.data.temperature.humidity,
-      date: new Date(response.data.time * 1000),
-      description: response.data.condition.description,
-      icon: response.data.condition.icon, //Stores the icon code instead of the iconURL
-      wind: response.data.wind.speed,
-      city: response.data.city,
-    });
+    console.log(response.data); //Log for debugging
+
+    //Check if the response indicates a "city not found" error
+    if (
+      response.data.status === "not_found" &&
+      response.data.message === "city not found"
+    ) {
+      setError("City not found. Please try again."); //Set the error state
+      setWeatherData({ ready: false }); // Reset weather data to avoid stale data
+    } else if (response.data.temperature && response.data.temperature.current) {
+      //Valid response; update the weather data state
+      setWeatherData({
+        ready: true,
+        coordinates: response.data.coordinates,
+        temperature: response.data.temperature.current,
+        humidity: response.data.temperature.humidity,
+        date: new Date(response.data.time * 1000),
+        description: response.data.condition.description,
+        icon: response.data.condition.icon, //Stores the icon code instead of the iconURL
+        wind: response.data.wind.speed,
+        city: response.data.city,
+      });
+      setError(null); //Clear any previous error
+    } else {
+      //Catch any unexpected response structure
+      setError("Unexpected response from the server. Please try again.");
+      console.error("Unexpected API response structure", response.data);
+    }
   }
 
   //Handle form submission
@@ -44,11 +61,41 @@ export default function Weather(props) {
   }
 
   //Initial search on component mount
-  //useEffect(() => {
-  //search(city);
-  //}, [city]); //Run only once when the component mounts
+  useEffect(() => {
+    search();
+  }, []); //Run only once when the component mounts
 
-  if (weatherData.ready) {
+  if (error) {
+    // Display error message when `error` state is set
+    return (
+      <div className="Weather">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9">
+              <input
+                type="search"
+                placeholder="Enter a city..."
+                className="form-control"
+                value={city}
+                onChange={handleCityChange}
+                autoFocus="on"
+              />
+            </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
+            </div>
+          </div>
+        </form>
+        <div className="alert alert-danger">{error} </div>{" "}
+        {/* Display error message */}
+      </div>
+    );
+  } else if (weatherData.ready) {
+    //Display weather data when `weatherData.ready` is true
     return (
       <div className="Weather">
         <form onSubmit={handleSubmit}>
@@ -77,7 +124,9 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    search();
+    //Show loading message while fetching data
+    //search(); // Initiate the search if `weatherData.ready` is false
+    
     return "Loading...";
   }
 }
