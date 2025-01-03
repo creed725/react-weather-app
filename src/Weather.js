@@ -6,7 +6,6 @@ import axios from "axios";
 /*import "./containerStyle.css";*/
 
 export default function Weather(props) {
-  //const [ready, setReady] = useState(false);
   const [error, setError] = useState(null); //Initialize the error state as null
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
@@ -15,13 +14,10 @@ export default function Weather(props) {
     console.log(response.data); //Log for debugging
 
     //Check if the response indicates a "city not found" error
-    if (
-      response.data.status === "not_found" &&
-      response.data.message === "city not found"
-    ) {
-      setError("City not found. Please try again."); //Set the error state
+    if (!response.data || response.data.status === "not_found") {
+      setError("City not found. Please check the spelling and try again."); //Set the error state
       setWeatherData({ ready: false }); // Reset weather data to avoid stale data
-    } else if (response.data.temperature && response.data.temperature.current) {
+    } else if (response.data.temperature?.current) {
       //Valid response; update the weather data state
       setWeatherData({
         ready: true,
@@ -42,6 +38,24 @@ export default function Weather(props) {
     }
   }
 
+  function search() {
+    const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
+
+    axios
+      .get(apiUrl)
+      .then(handleResponse)
+      .catch((error) => {
+        setError("Failed to fetch weather data. Please try again.");
+        console.error("API call error:", error);
+      });
+  }
+
+  //Initial search on component mount
+  useEffect(() => {
+    search();
+  }, []); //Run only once when the component mounts
+
   //Handle form submission
   function handleSubmit(event) {
     event.preventDefault();
@@ -52,18 +66,6 @@ export default function Weather(props) {
   function handleCityChange(event) {
     setCity(event.target.value);
   }
-
-  function search() {
-    const apiKey = `40bdb8c3a26579atfoa8a2d376def906`; //API Key from SheCodes API Documentation
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`; //apiURL from SheCodes API Documentation
-
-    axios.get(apiUrl).then(handleResponse);
-  }
-
-  //Initial search on component mount
-  useEffect(() => {
-    search();
-  }, []); //Run only once when the component mounts
 
   if (error) {
     // Display error message when `error` state is set
@@ -126,7 +128,7 @@ export default function Weather(props) {
   } else {
     //Show loading message while fetching data
     //search(); // Initiate the search if `weatherData.ready` is false
-    
+
     return "Loading...";
   }
 }
