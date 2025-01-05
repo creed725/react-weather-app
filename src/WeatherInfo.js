@@ -5,46 +5,32 @@ import WeatherTemperature from "./WeatherTemperature";
 export default function WeatherInfo(props) {
   return (
     <div className="WeatherInfo">
-      <div className="row">
-        <div className="col-7">
-          <h2>{props.data.city}</h2>
+      <h1>{props.data.city}</h1>
+      <ul>
+        <li>
+          <FormattedDate date={props.data.date} />
+        </li>
+        <li className="text-capitalize">{props.data.description}</li>
+      </ul>
 
-          <div className="row">
-            <div className="col-7">
-              <FormattedDate date={props.data.date} />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-7 text-capitalize">
-              {props.data.description}
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-7">
-              <WeatherTemperature fahrenheit={props.data.temperature} />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-7">
-              <span>Wind:</span>
-              <span id="wind" className="windy">
-                {Math.round(props.data.wind)}
-              </span>{" "}
-              mph
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-7">
-              <div className="float-left">
-                <WeatherIcon code={props.data.icon} size={64} />
-              </div>
+      <div className="row mt-3">
+        <div className="col-6">
+          <div className="clearfix">
+            <div className="float-left">
+              <WeatherIcon code={props.data.icon} size={64} />
             </div>
           </div>
         </div>
+      </div>
+      <div className="float-left ml-3">
+        <WeatherTemperature fahrenheit={props.data.temperature} />
+      </div>
+
+      <div className="col-6">
+        <ul>
+          <li>Humidity: {Math.round(props.data.humidity)}%</li>
+          <li>Wind: {Math.round(props.data.wind)} mph</li>
+        </ul>
       </div>
     </div>
   );
