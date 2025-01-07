@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
-
-/*import "./containerStyle.css";*/
+import "./Weather.css";
 
 export default function Weather(props) {
   const [error, setError] = useState(null); //Initialize the error state as null
@@ -130,9 +129,7 @@ export default function Weather(props) {
     );
   } else {
     //Show loading message while fetching data
-    //search(); // Initiate the search if `weatherData.ready` is false
-
-    return "Loading...";
+      return "Loading...";
   }
 }
 
