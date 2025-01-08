@@ -125,6 +125,16 @@ export default function Weather(props) {
         </form>
         <WeatherInfo data={weatherData} />
         <WeatherForecast coordinates={weatherData.coordinates} />
+        <footer id="author">
+          <a
+            href="https://github.com/creed725/react-weather-app.git"
+            target="_blank"
+            rel="noopener noreferrer" //This is a security best practice
+          >
+            Open-source
+          </a>{" "}
+          coded by Ciara Reed 👩🏽‍💻
+        </footer>
       </div>
     );
   } else {
