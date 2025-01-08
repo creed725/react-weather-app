@@ -80,7 +80,7 @@ export default function Weather(props) {
               <input
                 type="search"
                 placeholder="Enter a city..."
-                className="form-control"
+                className="form-control search-input"
                 value={city}
                 onChange={handleCityChange}
                 autoFocus="on"
@@ -108,7 +108,7 @@ export default function Weather(props) {
               <input
                 type="search"
                 placeholder="Enter a city..."
-                className="form-control"
+                className="form-control search-input"
                 value={city}
                 onChange={handleCityChange}
                 autoFocus="on"
@@ -129,7 +129,7 @@ export default function Weather(props) {
     );
   } else {
     //Show loading message while fetching data
-      return "Loading...";
+    return "Loading...";
   }
 }
 
