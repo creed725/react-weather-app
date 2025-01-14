@@ -81,7 +81,7 @@ export default function Weather(props) {
                 type="search"
                 placeholder="Enter a city..."
                 className="form-control search-input"
-                value={city}
+                defaultValue=""
                 onChange={handleCityChange}
                 autoFocus="on"
               />
@@ -109,7 +109,7 @@ export default function Weather(props) {
                 type="search"
                 placeholder="Enter a city..."
                 className="form-control search-input"
-                value={city}
+                defaultValue=""
                 onChange={handleCityChange}
                 autoFocus="on"
               />
